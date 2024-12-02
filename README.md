@@ -21,8 +21,8 @@ This repository contains implementations of various distributional reinforcement
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/distributional-rl.git
-cd distributional-rl
+git https://github.com/bajfi/Distributional-RL.git
+cd torch_drl
 
 # Create a virtual environment (optional but recommended)
 python -m venv venv
@@ -30,6 +30,9 @@ source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
 
 # Install dependencies
 pip install -r requirements.txt
+
+# Install library
+pip install -e .
 ```
 
 ## Usage
@@ -37,8 +40,10 @@ pip install -r requirements.txt
 To train an agent:
 
 ```bash
-python -m torch_drl.main --env-name CartPole-v1 --agent-type qrdqn
+python main -e CartPole-v1 -a dqn -n 200
 ```
+
+For more options, see `python -m torch_drl.main --help`.
 
 Available agent types:
 
@@ -71,7 +76,6 @@ Available agent types:
 │   ├── configs/
 │   │   └── default.py
 │   └── main.py
-├── tests/
 ├── requirements.txt
 ├── setup.py
 └── README.md
@@ -86,14 +90,6 @@ You can modify the hyperparameters in `torch_drl/configs/default.py`. Key config
 - Epsilon parameters for exploration
 - Network architecture
 - Training parameters
-
-## Results
-
-The implemented algorithms have been tested on various Gymnasium environments. Here are some example results:
-
-- CartPole-v1: All algorithms achieve optimal performance
-- Acrobot-v1: Distributional methods show improved sample efficiency
-- LunarLander-v2: QR-DQN and IQN demonstrate better performance
 
 ## Contributing
 
