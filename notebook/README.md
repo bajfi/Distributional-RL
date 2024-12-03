@@ -17,8 +17,8 @@ Q(s,a)
 
 ```
                  Probability
-                     ▲
-   █                 │
+                    ▲
+   █                │
    █      █         │
    █  █   █   █     │
    █  █   █   █  █  │
@@ -38,9 +38,9 @@ Q(s,a)
                      │         ████
                      │     ████
                      │  ███
-                   0├─██
-                    └┼─────────────┼─► Return
-                     θ₁   θ₂   θ₃
+                    0├───╯
+                     └┼─────────────┼─► Return
+                      θ₁   θ₂   θ₃
                  Learned Quantiles
 ```
 
@@ -54,8 +54,8 @@ Q(s,a)
                      │         ╭──╯
                      │      ╭──╯
                      │   ╭──╯
-                   0├───╯
-                    └┼─────────────┼─► Return
+                    0├───╯
+                     └┼─────────────┼─► Return
                   Continuous Mapping
 ```
 
@@ -153,11 +153,12 @@ IQN:     [█████]
 
 ### DQN (Point Estimate)
 
-$$Q(s,a) = \mathbb{E}[R_t + \gamma R_{t+1} + \gamma^2 R_{t+2} + ...]$$
+$$ Q(s,a) = \mathbb{E}[R_t + \gamma R_{t+1} + \gamma^2 R_{t+2} + ...] $$
 
 ### C51 (Categorical Distribution)
 
-$$Z_\theta(s,a) = \sum_{i=1}^N p_i(s,a) \delta_{z_i}$$
+$$ Z_\theta(s,a) = \sum_{i=1}^N p_i(s,a) \delta_{z_i} $$
+
 where:
 
 - $z_i = V_{min} + \frac{i-1}{N-1}(V_{max} - V_{min})$
@@ -165,7 +166,7 @@ where:
 
 ### QR-DQN (Quantile Distribution)
 
-$$Z_\theta(s,a) = \sum_{i=1}^N \frac{1}{N} \delta_{\theta_i(s,a)}$$
+$$ Z_\theta(s,a) = \sum_{i=1}^N \frac{1}{N} \delta_{\theta_i(s,a)} $$
 where:
 
 - $\tau_i = \frac{i - 0.5}{N}$
@@ -173,39 +174,48 @@ where:
 
 ### IQN (Implicit Quantile Function)
 
-$$Z_\theta(s,a,\tau) = f_\theta(s,a,\tau), \tau \sim U[0,1]$$
+$$ Z_\theta(s,a,\tau) = f_\theta(s,a,\tau), \tau \sim U[0,1] $$
 
 ## Loss Functions
 
 ### DQN
 
-$$L_{DQN}(\theta) = \mathbb{E}[(r + \gamma \max_{a'} Q_{\theta^-}(s',a') - Q_\theta(s,a))^2]$$
+$$ L_{DQN}(\theta) = \mathbb{E}[(r + \gamma \max_{a'} Q_{\theta^-}(s',a') - Q_\theta(s,a))^2] $$
 
 ### C51
 
-$$L_{C51}(\theta) = D_{KL}(\Phi T Z_{\theta'} || Z_\theta)$$
+$$ L_{C51}(\theta) = D_{KL}(\Phi T Z_{\theta'} || Z_\theta) $$
+
 where:
-$$T Z_{\theta'}(s,a) = r + \gamma Z_{\theta'}(s',a'^*)$$
-$$a^* = \arg\max_{a'} \mathbb{E}[Z_{\theta'}(s',a')]$$
+
+$$ T Z_{\theta'}(s,a) = r + \gamma Z_{\theta'}(s',a'^*) $$
+$$ a^* = \arg\max_{a'} \mathbb{E}[Z_{\theta'}(s',a')] $$
 
 ### QR-DQN
 
-$$L_{QR}(\theta) = \mathbb{E}[\sum_{i=1}^N \sum_{j=1}^N \rho_{\tau_i}(r + \gamma \theta_j(s',a'^*) - \theta_i(s,a))]$$
+$$ L_{QR}(\theta) = \mathbb{E}[\sum_{i=1}^N \sum_{j=1}^N \rho_{\tau_i}(r + \gamma \theta_j(s',a'^*) - \theta_i(s,a))] $$
+
 where:
-$$\rho_\tau(u) = |\tau - \mathbb{1}\{u < 0\}| \cdot L_\kappa(u)$$
-$$L_\kappa(u) = \begin{cases}
+
+$$ \rho_\tau(u) = |\tau - \mathbb{1}\{u < 0\}| \cdot L_\kappa(u) $$
+
+$$
+L_\kappa(u) = \begin{cases}
 \frac{1}{2}u^2 & \text{if } |u| \leq \kappa \\
 \kappa(|u| - \frac{1}{2}\kappa) & \text{otherwise}
-\end{cases}$$
+\end{cases}
+$$
 
 ### IQN
-$$L_{IQN}(\theta) = \mathbb{E}_{\tau,\tau' \sim U[0,1]}[\sum_{i,j} \rho_{\tau_i}(r + \gamma Z_\theta(s',a'^*,\tau'_j) - Z_\theta(s,a,\tau_i))]$$
+
+$$ L_{IQN}(\theta) = \mathbb{E}_{\tau,\tau' \sim U[0,1]}[\sum_{i,j} \rho_{\tau_i}(r + \gamma Z_\theta(s',a'^*,\tau'_j) - Z_\theta(s,a,\tau_i))] $$
 
 ## Feature Embeddings
 
 ### IQN Cosine Embedding
-$$\phi_j(\tau) = \cos(\pi j \tau), j = 1,...,n$$
-$$\psi(s,\tau) = \phi(s) \odot \phi(\tau)$$
+
+$$ \phi_j(\tau) = \cos(\pi j \tau), j = 1,...,n $$
+$$ \psi(s,\tau) = \phi(s) \odot \phi(\tau) $$
 
 ## Comparison of Properties
 
@@ -220,19 +230,25 @@ $$\psi(s,\tau) = \phi(s) \odot \phi(\tau)$$
 ## Risk-Sensitive Policies
 
 ### C51
-$$\pi(s) = \arg\max_a \sum_{i=1}^N p_i(s,a)z_i$$
+
+$$ \pi(s) = \arg\max_a \sum_{i=1}^N p_i(s,a)z_i $$
 
 ### QR-DQN
-$$\pi_\alpha(s) = \arg\max_a \frac{1}{N} \sum_{i=1}^N \theta_i(s,a)$$
+
+$$ \pi_\alpha(s) = \arg\max_a \frac{1}{N} \sum_{i=1}^N \theta_i(s,a) $$
 
 ### IQN
-$$\pi_\alpha(s) = \arg\max_a \mathbb{E}_{\tau \sim f_\alpha}[Z_\theta(s,a,\tau)]$$
+
+$$ \pi_\alpha(s) = \arg\max_a \mathbb{E}_{\tau \sim f_\alpha}[Z_\theta(s,a,\tau)] $$
+
 where $f_\alpha$ is a risk-sensitive sampling distribution.
 
 ## Distribution Updates
 
 ### C51 Projection
+
 For target $\hat{z} = r + \gamma z$:
+
 $$ (\Phi \hat{z})_i = \begin{cases}
 1 & \text{if } \hat{z} \leq z_1 \\
 \frac{z_{i+1} - \hat{z}}{z_{i+1} - z_i} & \text{if } z_i < \hat{z} \leq z_{i+1} \\
