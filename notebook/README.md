@@ -205,7 +205,9 @@ $$L_\kappa(u) = \begin{cases} \frac{1}{2}u^2 & \text{if } |u| \leq \kappa \\ \ka
 
 ### IQN
 
-$$L_{IQN}(\theta) = \mathbb{E}_{\tau,\tau' \sim U[0,1]}[\sum_{i,j} \rho_{\tau_i}(r + \gamma Z_\theta(s',a'^*,\tau'_j) - Z_\theta(s,a,\tau_i))]$$
+```math
+L_{IQN}(\theta) = \mathbb{E}_{\tau,\tau' \sim U[0,1]}[\sum_{i,j} \rho_{\tau_i}(r + \gamma Z_\theta(s',a'^*,\tau'_j) - Z_\theta(s,a,\tau_i))]
+```
 
 ## Feature Embeddings
 
@@ -236,7 +238,9 @@ $$\pi_\alpha(s) = \arg\max_a \frac{1}{N} \sum_{i=1}^N \theta_i(s,a)$$
 
 ### IQN
 
-$$\pi_\alpha(s) = \arg\max_a \mathbb{E}_{\tau \sim f_\alpha}[Z_\theta(s,a,\tau)]$$
+```math
+\pi_\alpha(s) = \arg\max_a \mathbb{E}_{\tau \sim f_\alpha}[Z_\theta(s,a,\tau)]
+```
 
 where $f_\alpha$ is a risk-sensitive sampling distribution.
 
@@ -246,15 +250,21 @@ where $f_\alpha$ is a risk-sensitive sampling distribution.
 
 For target $\hat{z} = r + \gamma z$:
 
-$$(\Phi \hat{z})_i = \begin{cases} 1 & \text{if } \hat{z} \leq z_1 \\ \frac{z_{i+1} - \hat{z}}{z_{i+1} - z_i} & \text{if } z_i < \hat{z} \leq z_{i+1} \\ 0 & \text{if } \hat{z} > z_N \end{cases}$$
+```math
+(\Phi \hat{z})_i = \begin{cases} 1 & \text{if } \hat{z} \leq z_1 \\ \frac{z_{i+1} - \hat{z}}{z_{i+1} - z_i} & \text{if } z_i < \hat{z} \leq z_{i+1} \\ 0 & \text{if } \hat{z} > z_N \end{cases}
+```
 
 ### QR-DQN Update
 
-$$\theta_i(s,a) \leftarrow \theta_i(s,a) - \alpha \nabla_{\theta_i} \sum_j \rho_{\tau_i}(r + \gamma \theta_j(s',a'^*) - \theta_i(s,a))$$
+```math
+\theta_i(s,a) \leftarrow \theta_i(s,a) - \alpha \nabla_{\theta_i} \sum_j \rho_{\tau_i}(r + \gamma \theta_j(s',a'^*) - \theta_i(s,a))
+```
 
 ### IQN Update
 
-$$Z_\theta(s,a,\tau) \leftarrow Z_\theta(s,a,\tau) - \alpha \nabla_\theta \mathbb{E}_{\tau'}[\rho_\tau(r + \gamma Z_\theta(s',a'^*,\tau') - Z_\theta(s,a,\tau))]$$
+```math
+Z_\theta(s,a,\tau) \leftarrow Z_\theta(s,a,\tau) - \alpha \nabla_\theta \mathbb{E}_{\tau'}[\rho_\tau(r + \gamma Z_\theta(s',a'^*,\tau') - Z_\theta(s,a,\tau))]
+```
 
 ## Evolution of Methods
 
