@@ -8,7 +8,7 @@ LEARNING_RATE = 3e-4  # Learning rate
 MEMORY_SIZE = 100_000  # Size of replay buffer
 MIN_MEMORY_SIZE = 1000  # Minimum size of memory before training
 GAMMA = 0.99  # Discount factor
-TARGET_UPDATE_FREQ = 10  # Frequency of target network update
+TARGET_UPDATE_FREQ = 100  # Frequency of target network update
 
 # Exploration parameters
 EPSILON_START = 1.0  # Starting epsilon for exploration
@@ -50,7 +50,7 @@ DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 ENV_NAME = "CartPole-v1"  # Name of the environment
 MAX_EPISODES = 500  # Maximum number of episodes
 EVAL_FREQ = 10  # Frequency of evaluation
-N_EVAL_EPISODES = 1  # Number of episodes for evaluation
+N_EVAL_EPISODES = 2  # Number of episodes for evaluation
 
 # Logging parameters
 LOG_DIR = "runs"  # Directory for saving logs

@@ -208,7 +208,7 @@ def train(
         with logger.create_progress_bar():
             logger.start_training(episodes)
 
-            for episode in range(episodes):
+            for episode in range(1, episodes + 1):
                 state, _ = env.reset()
                 episode_reward = 0
                 episode_steps = 0
@@ -277,7 +277,8 @@ def train(
                         eval_reward = 0
                         done = False
                         while not done:
-                            action = agent.choose_action(state, epsilon=0.0)
+                            with torch.no_grad():
+                                action = agent.choose_action(state, epsilon=0.0)
                             state, reward, done, truncated, _ = env.step(action)
                             eval_reward += reward
                             done = done or truncated

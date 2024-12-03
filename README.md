@@ -75,11 +75,21 @@ Available agent types:
 │   │   └── visualization.py
 │   ├── configs/
 │   │   └── default.py
+│   ├── notebook/
+│   │   ├── C51.ipynb
+│   │   ├── IQN.ipynb
+│   │   └── QRDQN.ipynb
 │   └── main.py
 ├── requirements.txt
 ├── setup.py
 └── README.md
 ```
+
+## Notebooks
+
+- [C51](./notebook/C51.ipynb)
+- [IQN](./notebook/IQN.ipynb)
+- [QRDQN](./notebook/QRDQN.ipynb)
 
 ## Configuration
 
