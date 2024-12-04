@@ -1,0 +1,75 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[tool.ruff]
+line-length = 88
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "ruff"
+multi_line_output = 3
+line_length = 88
+
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q"
+testpaths = [
+    "test",
+]
+
+[tool.coverage.run]
+source = ["torch_drl"]
+omit = ["test/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "pass",
+    "raise ImportError",
+]
+
+[project]
+name = "torch_drl"
+description = "A PyTorch-based Distributional Reinforcement Learning Library"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {file = "LICENSE"}
+authors = [
+    {name = "lee", email = "jacklee13520@gmail.com"},
+]
+dependencies = [
+    "torch>=1.9.0",
+    "numpy>=1.19.0",
+    "pytest>=7.4.0",
+    "gymnasium>=0.29.0",
+]
+dynamic = ["version"]
+
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.0.266",
+    "isort>=5.12.0",
+    "pytest>=7.4.0",
+    "pytest-cov>=3.0.0",
+    "pre-commit>=2.20.0",
+] 

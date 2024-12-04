@@ -1,0 +1,43 @@
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+    -   id: trailing-whitespace
+    -   id: end-of-file-fixer
+    -   id: check-yaml
+    -   id: check-added-large-files
+    -   id: debug-statements
+    -   id: check-toml
+
+-   repo: https://github.com/astral-sh/ruff
+    rev: 0.0.266
+    hooks:
+    -   id: ruff
+        language_version: python3
+
+-   repo: https://github.com/pycqa/isort
+    rev: 5.12.0
+    hooks:
+    -   id: isort
+        args: ["--profile", "ruff"]
+
+-   repo: https://github.com/asottile/pyupgrade
+    rev: v3.4.0
+    hooks:
+    -   id: pyupgrade
+        args: [--py38-plus]
+
+-   repo: https://github.com/PyCQA/bandit
+    rev: 1.7.5
+    hooks:
+    -   id: bandit
+        args: ["-c", "pyproject.toml"]
+        additional_dependencies: ["bandit[toml]"]
+
+-   repo: local
+    hooks:
+    -   id: clean-python-cache
+        name: Clean Python Cache
+        entry: bash -c 'find . -type d -name "__pycache__" -exec rm -rf {} +; find . -type d -name ".pytest_cache" -exec rm -rf {} +; find . -type d -name ".ruff_cache" -exec rm -rf {} +; find . -type d -name ".mypy_cache" -exec rm -rf {} +; find . -type d -name "*.egg-info" -exec rm -rf {} +; find . -type d -name ".eggs" -exec rm -rf {} +; find . -type d -name "build" -exec rm -rf {} +; find . -type d -name "dist" -exec rm -rf {} +; find . -type f -name "*.pyc" -delete; find . -type f -name "*.pyo" -delete; find . -type f -name "*.pyd" -delete; find . -type f -name ".coverage" -delete; find . -type f -name "coverage.xml" -delete; find . -type d -name "htmlcov" -exec rm -rf {} +'
+        language: system
+        stages: [commit]
